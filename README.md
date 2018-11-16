@@ -7,7 +7,7 @@ Segundo intento para poder comenzar decentemente mi trabajo de título, todo gra
 * Se entrega junto con las clases RankerNode y RankerTree el archivo "demo_1.py" para verificar que las clases nombradas funcionen (y espero que sigan funcionando, ayer funcionaban!)
 * Aprendiendo a realizar READMES como la gente
 
-##TO-DO
+## TO-DO
 * Eso se revisará en Trello, pero igualmente, dejo esto como un placeholder.
 
 
