@@ -13,11 +13,11 @@ Segundo intento para poder comenzar decentemente mi trabajo de título, todo gra
 * Aprendiendo a realizar READMES como la gente
 
 ## TO-DO
-[ ] Ordenamiento decreciente de árbol
-[ ] Implementar Búsqueda de última generación de hijos (Access?)
-[ ] Creación de nueva matriz ordenada
-[ ] Creación de función Rank (Espera... Wavelet Tree?!)
-[ ] Creación de un histograma para lo anterior (Matriz anterior vs. Matriz ordenada) 
+- [ ] Ordenamiento decreciente de árbol
+- [ ] Implementar Búsqueda de última generación de hijos (Access?)
+- [ ] Creación de nueva matriz ordenada
+- [ ] Creación de función Rank (Espera... Wavelet Tree?!)
+- [ ] Creación de un histograma para lo anterior (Matriz anterior vs. Matriz ordenada) 
 
 
 **Manuel Benítez Cuevas**
