@@ -1,3 +1,3 @@
-from RankerTree import RankerTree
+import classes.RankerTree
 
-from RankerTree import RankerNode
+import classes.RankerNode
