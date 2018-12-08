@@ -28,5 +28,8 @@ class RankerTree:
     def select(self, symbol):
         print("En construccion")
 
+    def getOrderedMatrix(self):
+        print("En construccion")
+
 # FIN CLASE RANKERTREE - Clase que representa el arbol
 

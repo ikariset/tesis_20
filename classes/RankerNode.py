@@ -138,6 +138,7 @@ class RankerNode:
         else:
             return '-1'
         #Procedimiento para separar las matrices dentro del nodo
+        
 
     # Procedimiento para desenrrollar toda la matriz dentro de nodos en el arbol
     def unwrapChilds(self):
