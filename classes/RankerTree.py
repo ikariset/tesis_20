@@ -9,9 +9,9 @@ class RankerTree:
 
     # Procedimiento para desenvolver la matriz cargada en el nodo principal del arbol, generando todos los nodos hijos de este
     def unwrapTree(self):
-        print ("Generando Ranking del Padre...")
+        print("Generando Ranking del Padre...")
         self.topNode.getRanking()
-        print ("Ordenando las tuplas del Padre...")
+        print("Ordenando las tuplas del Padre...")
         self.topNode.sortMatrix()
 
         self.topNode.setChild(self.topNode.splitMatrix(0), 'left')
@@ -19,7 +19,14 @@ class RankerTree:
 
         self.topNode.unwrapChilds()
 
-    # Falta procedimiento para desenvolver los hijos de la derecha y los de la izquierda
+    def rank(self, side, symbol):
+        print("En construccion")
+
+    def access(self, symbol):
+        print("En construccion")
+
+    def select(self, symbol):
+        print("En construccion")
 
 # FIN CLASE RANKERTREE - Clase que representa el arbol
 

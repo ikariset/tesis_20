@@ -50,10 +50,10 @@ class RankerNode:
         done = False
         while not done:
             # print ("Sali del while? {}" .format(done))
-            while leftmark <= rightmark and self.ranking[leftmark] <= pivotvalue:
+            while leftmark <= rightmark and self.ranking[leftmark] >= pivotvalue:
                 leftmark = leftmark + 1
 
-            while self.ranking[rightmark] >= pivotvalue and rightmark >= leftmark:
+            while self.ranking[rightmark] <= pivotvalue and rightmark >= leftmark:
                 rightmark = rightmark - 1
 
             # print ("Esto es el marcado por la izquierda: %d" % leftmark)

@@ -9,8 +9,8 @@ from classes.RankerTree import RankerTree
 
 def demo1():
     # Creacion de la matriz que se analizara
-    elem = 10
-    docs = 10
+    elem = 20
+    docs = 20
 
     matrix = numpy.random.rand(docs, elem).round()
 
