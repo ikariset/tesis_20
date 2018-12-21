@@ -1,3 +1,4 @@
+import numpy as np
 from classes.RankerNode import RankerNode
 
 
@@ -20,6 +21,7 @@ class RankerTree:
         self.topNode.unwrapChilds()
 
     def rank(self, side, symbol):
+        # 1. En topNode, revisa en dónde se encuentra el símbolo (el índice)
         print("En construccion")
 
     def access(self, symbol):
@@ -29,7 +31,22 @@ class RankerTree:
         print("En construccion")
 
     def getOrderedMatrix(self):
-        print("En construccion")
+        print("Obteniendo Matrix Ordenada")
+        result = []
+        if self.topNode != []:
+            result = np.concatenate((self.topNode.leftNode.accessDeepLeaf(), self.topNode.rightNode.accessDeepLeaf()), axis=0)
+        else:
+            print("Top Node is empty. \nPlease assign and unwrap a tree after getting a ordered matrix.")
+        return result
+
+    def getRunsData(self, data=[]):
+        if data == []:
+            orderedMatrix = self.getOrderedMatrix()
+        else:
+            print("Obteniendo datos de Run con matriz entregada")
+            orderedMatrix = data
+
+        print(orderedMatrix)
+
 
 # FIN CLASE RANKERTREE - Clase que representa el arbol
-
