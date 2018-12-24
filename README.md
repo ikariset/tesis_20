@@ -2,6 +2,11 @@
 Segundo intento para poder comenzar decentemente mi trabajo de título, todo gracias al "Chicoteo Mortal" del Prof. Mauricio Oyarzún en la UNAP.
 
 ## CHANGELOG
+**24-12-2018** - _Ho-Ho-Ho M**therf**ker Edition_
+* Tercer Commit
+* Se agregaron las funciones getOrderedMatrix() y getRunsData() para obtención de datos para histograma
+* Falta pulir getRunsData(), debido a un comportamiento no-previsto con una matriz externa.
+
 **05-12-2018** - _It's my first job Edition_
 * Segundo Commit
 * Se ordenaron mucho más las clases RankerNode y Ranker Tree
@@ -13,10 +18,11 @@ Segundo intento para poder comenzar decentemente mi trabajo de título, todo gra
 * Aprendiendo a realizar READMES como la gente
 
 ## TO-DO
-- [ ] Ordenamiento decreciente de árbol
+- [x] Ordenamiento decreciente de árbol
 - [ ] Implementar Búsqueda de última generación de hijos (Access?)
-- [ ] Creación de nueva matriz ordenada
+- [x] Creación de nueva matriz ordenada
 - [ ] Creación de función Rank (Espera... Wavelet Tree?!)
+- [x] Creación de función para generar datos de cantidad de Runs
 - [ ] Creación de un histograma para lo anterior (Matriz anterior vs. Matriz ordenada) 
 
 

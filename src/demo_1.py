@@ -4,10 +4,12 @@ from classes.RankerTree import RankerTree
 
 def demo1():
     # Creacion de la matriz que se analizara
-    elem = 5
-    docs = 5
+    elem = 10
+    docs = 10
 
     matrix = np.random.rand(docs, elem).round()
+
+    print("Esta es la Matriz: \n{}" .format(matrix))
 
     # Se crea el objeto que albergara el arbol
     tree = RankerTree(matrix)
@@ -20,8 +22,12 @@ def demo1():
 
     # print("Esta es la matriz ordenada: \n{}" .format(orderedMatrix))
 
-    tree.getRunsData(matrix)
-    tree.getRunsData()
+    # tree.getRunsData(matrix)
+    runsArray = tree.getRunsData()
+    print("Este es el array de Runs: {}\n De esta matriz ordenada: \n{}" .format(runsArray, tree.getOrderedMatrix()))
+
+    runsArray = tree.getRunsData(matrix)
+    print("Este es el array de Runs: {}\n De esta matriz ordenada: \n{}".format(runsArray, matrix))
 
 
 if __name__ == "__main__":
