@@ -9,25 +9,20 @@ def demo1():
 
     matrix = np.random.rand(docs, elem).round()
 
-    print("Esta es la Matriz: \n{}" .format(matrix))
-
     # Se crea el objeto que albergara el arbol
     tree = RankerTree(matrix)
     tree.unwrapTree()
 
-    print("Cabeza de arbol: \n{}\nRanking de documentos: \n{}" .format(tree.topNode.matrix, tree.topNode.ranking))
+    # print("Cabeza de arbol: \n{}\nRanking de documentos: \n{}" .format(tree.topNode.matrix, tree.topNode.ranking))
     # Demo controlado para una matriz de 4 x 4
-    print("Por la izquierda: \n{} \nPor la derecha: \n{}" .format(tree.topNode.leftNode.matrix, tree.topNode.rightNode.matrix))
-    print("Por la izquierda: \n{} \nPor la derecha: \n{}\n".format(tree.topNode.leftNode.leftNode.matrix, tree.topNode.leftNode.rightNode.matrix))
-
-    # print("Esta es la matriz ordenada: \n{}" .format(orderedMatrix))
-
-    # tree.getRunsData(matrix)
-    runsArray = tree.getRunsData()
-    print("Este es el array de Runs: {}\n De esta matriz ordenada: \n{}" .format(runsArray, tree.getOrderedMatrix()))
+    # print("Por la izquierda: \n{} \nPor la derecha: \n{}" .format(tree.topNode.leftNode.matrix, tree.topNode.rightNode.matrix))
+    # print("Por la izquierda: \n{} \nPor la derecha: \n{}\n".format(tree.topNode.leftNode.leftNode.matrix, tree.topNode.leftNode.rightNode.matrix))
 
     runsArray = tree.getRunsData(matrix)
-    print("Este es el array de Runs: {}\n De esta matriz ordenada: \n{}".format(runsArray, matrix))
+    print("Previous Matrix Run Length Histogram.\nMatrix preview\n{}\nRuns length data\n{}\n".format(matrix, runsArray))
+    runsArray = tree.getRunsData()
+    print("Current Matrix Run Length Histogram.\nMatrix preview\n{}\nRuns length data\n{}\n".format(tree.getOrderedMatrix(), runsArray))
+
 
 
 if __name__ == "__main__":

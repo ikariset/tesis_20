@@ -11,7 +11,7 @@ class RankerNode:
 
     def setMatrix(self, matrix):
         if matrix.any():
-            self.matrix = matrix
+            self.matrix = matrix.copy()
             return '1'
         else:
             return '-9'
@@ -50,19 +50,14 @@ class RankerNode:
 
         done = False
         while not done:
-            # print ("Sali del while? {}" .format(done))
             while leftmark <= rightmark and self.ranking[leftmark] >= pivotvalue:
                 leftmark = leftmark + 1
 
             while self.ranking[rightmark] <= pivotvalue and rightmark >= leftmark:
                 rightmark = rightmark - 1
 
-            # print ("Esto es el marcado por la izquierda: %d" % leftmark)
-            # print ("Esto es el marcado por la derecha: %d" % rightmark)
-
             if rightmark < leftmark:
                 done = True
-                # print ("Ya sali del while: {}" .format(done))
 
             else:
                 # print ("Estoy en el else:\n--------------------------------RANKING-------------------------------------")
@@ -108,8 +103,8 @@ class RankerNode:
 
         # print "Matriz, antes:\n", aux, "\n", "despues:\n", self.matrix, "\nRanking, antes: \n", aux2, "\n", "despues:\n", self.ranking
 
+    #Procedimiento para asignar una matriz a un nodo hijo
     def setChild(self, matrix, side):
-        #Procedimiento para asignar una matriz a un nodo hijo
         if side == 'left':
             self.leftNode = RankerNode()
             return self.leftNode.setMatrix(matrix)
@@ -119,6 +114,7 @@ class RankerNode:
         else:
             return '-1'
 
+    #Procedimiento para separar las matrices dentro del nodo
     def splitMatrix(self, slice):
         # Para saber si es impar o par la division
         # el split que se debe hacer ahora es a partir del promedio del array ranking
@@ -142,25 +138,18 @@ class RankerNode:
         else:
             sublen = round((len(self.matrix[:, 0]) + 1) / 2)
 
-        # print(len(self.matrix[0]), len(self.matrix[:, 0]), sublen)
-
-        # genera la separacion de la matriz
+        # Splitting current node matrix by previously obtained sub-length
         if slice == 0:
-            print(self.matrix[0:sublen, 0:len(self.matrix[0])])
             return self.matrix[0:sublen, 0:len(self.matrix[0])]
         elif slice == 1:
-            print(self.matrix[sublen:len(self.matrix[:]), 0:len(self.matrix[0])])
             return self.matrix[sublen:len(self.matrix[:]), 0:len(self.matrix[0])]
         else:
+            print("Using splitMatrix(slice = {0: upper slice / 1: lower slice})")
             return '-1'
-        #Procedimiento para separar las matrices dentro del nodo
-
 
     # Procedimiento para desenrrollar toda la matriz dentro de nodos en el arbol
     def unwrapChilds(self):
-        print("Generando Nodo")
         self.getRanking()
-        print("Ordenando Matriz de Nodo")
         self.sortMatrix()
 
         if len(self.matrix) > 1:
@@ -170,6 +159,7 @@ class RankerNode:
             self.leftNode.unwrapChilds()
             self.rightNode.unwrapChilds()
 
+    # Procedimiento para acceder a todos las hojas más profundas del árbol y obtener la matriz que posee esa hoja
     def accessDeepLeaf(self):
         if len(self.matrix) > 1:
             self.leftNode.accessDeepLeaf()

@@ -2,7 +2,13 @@
 Segundo intento para poder comenzar decentemente mi trabajo de título, todo gracias al "Chicoteo Mortal" del Prof. Mauricio Oyarzún en la UNAP.
 
 ## CHANGELOG
-**24-12-2018** - _Ho-Ho-Ho M**therf**ker Edition_
+**26-12-2018** - _"Recalentado" Edition_
+* Cuarto gran commit
+* getRunsData() genera efectivamente el array de los largos de los RUN que se generan en una matriz, sea o no ordenada
+* Falta pulir getRunsData(), debido a un comportamiento no-previsto con una matriz externa.
+* Generación de datos para histograma completo, generación de arrays y json de salida en archivo en carpeta /output/
+
+**24-12-2018** - _Ho-Ho-Ho M**--therf--**ker Edition_
 * Tercer Commit
 * Se agregaron las funciones getOrderedMatrix() y getRunsData() para obtención de datos para histograma
 * Falta pulir getRunsData(), debido a un comportamiento no-previsto con una matriz externa.
@@ -19,9 +25,9 @@ Segundo intento para poder comenzar decentemente mi trabajo de título, todo gra
 
 ## TO-DO
 - [x] Ordenamiento decreciente de árbol
-- [ ] Implementar Búsqueda de última generación de hijos (Access?)
+- [x] Implementar Búsqueda de última generación de hijos (Access?)
 - [x] Creación de nueva matriz ordenada
-- [ ] Creación de función Rank (Espera... Wavelet Tree?!)
+- [ ] ~~Creación de función Rank (Espera... Wavelet Tree?!)~~ Se reemplazó por RUN, pero sería ideal implementarlo
 - [x] Creación de función para generar datos de cantidad de Runs
 - [ ] Creación de un histograma para lo anterior (Matriz anterior vs. Matriz ordenada) 
 
