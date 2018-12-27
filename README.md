@@ -5,10 +5,9 @@ Segundo intento para poder comenzar decentemente mi trabajo de título, todo gra
 **26-12-2018** - _"Recalentado" Edition_
 * Cuarto gran commit
 * getRunsData() genera efectivamente el array de los largos de los RUN que se generan en una matriz, sea o no ordenada
-* Falta pulir getRunsData(), debido a un comportamiento no-previsto con una matriz externa.
 * Generación de datos para histograma completo, generación de arrays y json de salida en archivo en carpeta /output/
 
-**24-12-2018** - _Ho-Ho-Ho M**--therf--**ker Edition_
+**24-12-2018** - _Ho-Ho-Ho M--therf--ker Edition_
 * Tercer Commit
 * Se agregaron las funciones getOrderedMatrix() y getRunsData() para obtención de datos para histograma
 * Falta pulir getRunsData(), debido a un comportamiento no-previsto con una matriz externa.
