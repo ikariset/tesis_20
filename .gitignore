@@ -1,0 +1,14 @@
+# Virtual Environment
+venv
+
+# Basura de Git
+.git
+.idea
+
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
+
+#PyCache
+*/__pycache__/
