@@ -9,6 +9,8 @@ venv
 .DS_Store
 .AppleDouble
 .LSOverride
+input
+output
 
 #PyCache
 */__pycache__/
