@@ -1,12 +1,14 @@
-import numpy as np, json as js, datetime as dt, time as tm, os
+import numpy as np, json as js, datetime as dt, time as tm, os, matplotlib.pyplot as plt
 from classes.RankerNode import RankerNode
 
 
 # CLASE RANKERTREE - Clase que representa el arbol
 class RankerTree:
-    def __init__(self, matrix):
+    def __init__(self, matrix, docnames, terms):
         self.topNode = RankerNode()
         self.topNode.setMatrix(matrix)
+        self.topNode.setDocnames(docnames)
+        self.topNode.setTerms(terms)
 
     # Procedimiento para desenvolver la matriz cargada en el nodo principal del arbol, generando todos los nodos hijos de este
     def unwrapTree(self):
@@ -15,20 +17,12 @@ class RankerTree:
         print("Sorting Top Node Matrix...")
         self.topNode.sortMatrix()
         print("Unwrapping all childs from Top Node Matrix")
-        self.topNode.setChild(self.topNode.splitMatrix(0), 'left')
-        self.topNode.setChild(self.topNode.splitMatrix(1), 'right')
+        _splitted_matrix, _splitted_docnames = self.topNode.splitMatrix(0)
+        self.topNode.setChild(_splitted_matrix, _splitted_docnames, 'left')
+        _splitted_matrix, _splitted_docnames = self.topNode.splitMatrix(1)
+        self.topNode.setChild(_splitted_matrix, _splitted_docnames, 'right')
         self.topNode.unwrapChilds()
         print("Unwrapping process completed!")
-
-    def rank(self, side, symbol):
-        # 1. En topNode, revisa en dónde se encuentra el símbolo (el índice)
-        print("En construccion")
-
-    def access(self, symbol):
-        print("En construccion")
-
-    def select(self, symbol):
-        print("En construccion")
 
     def getOrderedMatrix(self):
         print("Getting Ordered Matrix from this instance.")
@@ -43,26 +37,28 @@ class RankerTree:
     def getRunsData(self, data=[]):
         if data == []:
             matrix_type = "new"
-            orderedMatrix = self.getOrderedMatrix()
+            orderedMatrix = self.getOrderedMatrix().copy()
         else:
             print("Assigning retrieved data to this instance.")
             matrix_type = "old"
-            orderedMatrix = data
+            orderedMatrix = data.copy()
 
         if len(orderedMatrix) > 0:
             runsArray = []
 
             # Getting Run Data from Ordered Matrix
-            for i in range(0, len(orderedMatrix[:]), 1):
+            for document in np.asarray(orderedMatrix.transpose()):
                 aux = 0
-
-                for j in range(0, len(orderedMatrix[i]), 1):
-                    if orderedMatrix[j][i] == 1:
+                term_ptr = 0
+                for term in np.array(document):
+                    if term == 1:
                         aux += 1
                     else:
-                        if j < len(orderedMatrix):
+                        if term_ptr < len(orderedMatrix):
                             runsArray.append(aux)
                             aux = 0
+
+                    term_ptr += 1
 
                 runsArray.append(aux)
 
