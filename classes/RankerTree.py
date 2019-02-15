@@ -96,5 +96,26 @@ class RankerTree:
 
         return histogram
 
+    def getRunsPlotAndData(self, data=[]):
+        if data == []:
+            matrix_type = "Ordered"
+            matrix_color = 'r'
+            runsData = np.matrix(self.getRunsData()).transpose()
+        else:
+            print("Creating scatterplot using external data.")
+            matrix_type = "Unordered"
+            matrix_color = 'b'
+            runsData = np.matrix(self.getRunsData(data)).transpose()
+
+
+        if len(runsData) > 0:
+            plt.figure('Run Lenght Occurrence Scatter (' + matrix_type + ')')
+            plt.scatter(np.array(runsData[:][0]), np.array(runsData[:][1]), linestyle='solid',
+                        marker='x', edgecolors='red', color=matrix_color)
+            plt.xlabel("Run Lenght")
+            plt.ylabel("Frequency")
+            plt.title("Run Lenght vs. Frequency")
+
+            # plt.show()
 
 # FIN CLASE RANKERTREE - Clase que representa el arbol
