@@ -5,6 +5,8 @@ import numpy as np
 class RankerNode:
     def __init__(self):
         self.matrix = []
+        self.docnames = []
+        self.terms = []
         self.ranking = []
         self.leftNode = None
         self.rightNode = None
@@ -16,17 +18,45 @@ class RankerNode:
         else:
             return '-9'
 
+    def setDocnames(self, docnames):
+        if len(docnames) > 0:
+            self.docnames = docnames.copy()
+            return '1'
+        else:
+            return '-9'
+
+    def setTerms(self, terms):
+        if len(terms) > 0:
+            self.terms = terms.copy()
+            return '1'
+        else:
+            return '-9'
+
     # Procedimiento para generar las sumatorias de existencias
     def getRanking(self):
         rank = []
 
-        for i in range(0, len(self.matrix[:]), 1):
+        aux_matrix = self.matrix.copy()
+        # print(self.matrix)
+
+        for terms_doc in np.array(aux_matrix):
             aux = 0
-            for j in range(0, len(self.matrix[i]), 1):
-                if self.matrix[i][j] == 1:
+            # print(terms_doc)
+            for term in terms_doc:
+                if term == 1:
                     aux += 1
 
             rank.append(aux)
+
+        """
+        for i in range(0, len(self.matrix[:])):
+            aux = 0
+            print((self.matrix[0])[0])
+            for j in range(0, len(self.matrix[:][i])):
+                if np.equal(self.matrix[i][j], 1):
+                    aux += 1
+
+            rank.append(aux)"""
 
         self.ranking = rank
         return 1
@@ -76,6 +106,22 @@ class RankerNode:
                 self.matrix[rightmark] = temp2
                 # print ("Matrix, valores de punteros izquierda y derecha: {}, {}" .format(self.matrix[leftmark], self.matrix[rightmark]))
 
+                # print "-------------------------------DOCNAME-------------------------------------"
+                temp3 = self.docnames[leftmark]
+                # print ("Docname, valor temporal: {}".format(temp3))
+                self.docnames[leftmark] = self.docnames[rightmark]
+                # print ("Docname, valores de punteros izquierda y derecha: {}, {}, {}" .format(self.docnames[leftmark], self.docnames[rightmark], temp3))
+                self.docnames[rightmark] = temp3
+                # print ("Docname, valores de punteros izquierda y derecha: {}, {}" .format(self.docnames[leftmark], self.docnames[rightmark]))
+
+                # print "--------------------------------TERMS--------------------------------------"
+                # temp4 = self.terms[leftmark]
+                # print ("Docname, valor temporal: {}".format(temp3))
+                # self.terms[leftmark] = self.terms[rightmark]
+                # print ("Terms, valores de punteros izquierda y derecha: {}, {}, {}" .format(self.terms[leftmark], self.terms[rightmark], temp4))
+                # self.terms[rightmark] = temp4
+                # print ("Terms, valores de punteros izquierda y derecha: {}, {}" .format(self.terms[leftmark], self.terms[rightmark]))
+
         # print "Estoy fuera del while:", "\n", "--------------------------------RANKING-------------------------------------"
         temp = self.ranking[first]
         # print ("Ranking, valor temporal: {}".format(temp))
@@ -92,6 +138,22 @@ class RankerNode:
         self.matrix[rightmark] = temp2
         # print ("Matrix, valores de punteros primero y derecha: {}, {}" .format(self.matrix[first], self.matrix[rightmark]))
 
+        # print "--------------------------------DOCNAME-------------------------------------"
+        temp3 = self.docnames[first]
+        # print ("Docname, valor temporal: {}".format(temp))
+        self.docnames[first] = self.docnames[rightmark]
+        # print ("Docname, valores de punteros primero y derecha: {}, {}" .format(self.docnames[first], self.docnames[rightmark]))
+        self.docnames[rightmark] = temp3
+        # print ("Docname, valores de punteros primero y derecha: {}, {}" .format(self.docnames[first], self.docnames[rightmark]))
+
+        # print "--------------------------------TERMS-------------------------------------"
+        # temp4 = self.terms[first]
+        # print ("Terms, valor temporal: {}".format(temp2))
+        # self.terms[first] = self.terms[rightmark]
+        # print ("Terms, valores de punteros primero y derecha: {}, {}" .format(self.terms[first], self.terms[rightmark]))
+        # self.terms[rightmark] = temp4
+        # print ("Terms, valores de punteros primero y derecha: {}, {}" .format(self.terms[first], self.terms[rightmark]))
+
         return rightmark
     # Fin Mod. de quicksort
 
@@ -104,15 +166,19 @@ class RankerNode:
         # print "Matriz, antes:\n", aux, "\n", "despues:\n", self.matrix, "\nRanking, antes: \n", aux2, "\n", "despues:\n", self.ranking
 
     #Procedimiento para asignar una matriz a un nodo hijo
-    def setChild(self, matrix, side):
+    def setChild(self, matrix, docnames, side):
         if side == 'left':
             self.leftNode = RankerNode()
-            return self.leftNode.setMatrix(matrix)
+            self.leftNode.setMatrix(matrix)
+            self.leftNode.setDocnames(docnames)
+            self.leftNode.setTerms(self.terms)
         elif side == 'right':
             self.rightNode = RankerNode()
-            return self.rightNode.setMatrix(matrix)
+            self.rightNode.setMatrix(matrix)
+            self.rightNode.setDocnames(docnames)
+            self.rightNode.setTerms(self.terms)
         else:
-            return '-1'
+            print("Available options: left/right")
 
     #Procedimiento para separar las matrices dentro del nodo
     def splitMatrix(self, slice):
@@ -140,12 +206,14 @@ class RankerNode:
 
         # Splitting current node matrix by previously obtained sub-length
         if slice == 0:
-            return self.matrix[0:sublen, 0:len(self.matrix[0])]
+            # print(self.matrix[0:sublen][:], self.docnames[0:sublen], self.terms)
+            return self.matrix[0:sublen][:], self.docnames[0:sublen]
         elif slice == 1:
-            return self.matrix[sublen:len(self.matrix[:]), 0:len(self.matrix[0])]
+            # print(self.matrix[sublen:][:], self.docnames[sublen:len(self.docnames)])
+            return self.matrix[sublen:][:], self.docnames[sublen:len(self.docnames)]
         else:
             print("Using splitMatrix(slice = {0: upper slice / 1: lower slice})")
-            return '-1'
+            return '-1', '-1'
 
     # Procedimiento para desenrrollar toda la matriz dentro de nodos en el arbol
     def unwrapChilds(self):
@@ -153,9 +221,10 @@ class RankerNode:
         self.sortMatrix()
 
         if len(self.matrix) > 1:
-            self.setChild(self.splitMatrix(0), 'left')
-            self.setChild(self.splitMatrix(1), 'right')
-
+            _splitted_matrix, _splitted_docnames = self.splitMatrix(0)
+            self.setChild(_splitted_matrix, _splitted_docnames, 'left')
+            _splitted_matrix, _splitted_docnames = self.splitMatrix(1)
+            self.setChild(_splitted_matrix, _splitted_docnames, 'right')
             self.leftNode.unwrapChilds()
             self.rightNode.unwrapChilds()
 

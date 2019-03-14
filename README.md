@@ -2,6 +2,20 @@
 Segundo intento para poder comenzar decentemente mi trabajo de título, todo gracias al "Chicoteo Mortal" del Prof. Mauricio Oyarzún en la UNAP.
 
 ## CHANGELOG
+**01-02-2019** - _"meper d0nas?" Edition_
+* Sexto Commit.
+* Agregada clase "InvertedIndicesFactory" para generar la matriz de incidencia de los términos en el set de prueba, para la carpeta "/input".
+* Se implementa _rudimentariamente_, los gráficos correspondientes a la información de los largos de **_RUN_** que se obtuvieron de la fábrica, antes mencionada.
+* Se implementó una forma en demo1.py para activar y desactivar el modo demo del ejercicio, para prueba de concepto y prueba real.
+* No hago Horas Extras nunca más... **NUNCA MÁS**.
+
+**01-01-2019** - _"Un año más" Edition_
+* Quinto Commit.
+* Se da pie a la implementación de índices invertidos calculados de textos alojados en la carpeta '/input'
+* Además, esto conllevará a generar un branch nuevo llamado 'dev-inverted-indices'.
+* Queda pendiente el 'plotting' de los histogramas de los **_RUN_** obtenidos de las matrices ordenadas y no-ordenadas.
+* Ya volvieron a criogenizar a Tommy Rey hasta el próximo año.
+
 **26-12-2018** - _"Recalentado" Edition_
 * Cuarto gran commit
 * getRunsData() genera efectivamente el array de los largos de los RUN que se generan en una matriz, sea o no ordenada
@@ -26,9 +40,9 @@ Segundo intento para poder comenzar decentemente mi trabajo de título, todo gra
 - [x] Ordenamiento decreciente de árbol
 - [x] Implementar Búsqueda de última generación de hijos (Access?)
 - [x] Creación de nueva matriz ordenada
-- [ ] ~~Creación de función Rank (Espera... Wavelet Tree?!)~~ Se reemplazó por RUN, pero sería ideal implementarlo
+- [x] ~~Creación de función Rank (Espera... Wavelet Tree?!)~~ Se reemplazó por RUN, pero sería ideal implementarlo
 - [x] Creación de función para generar datos de cantidad de Runs
-- [ ] Creación de un histograma para lo anterior (Matriz anterior vs. Matriz ordenada) 
+- [x] Creación de un histograma para lo anterior (Matriz anterior vs. Matriz ordenada) 
 
 
 **Manuel Benítez Cuevas**
