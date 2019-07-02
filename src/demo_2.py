@@ -27,15 +27,8 @@ def get_run_process(demo_mode=False):
     _docnames = []
     _terms = []
 
-    if demo_mode:
-        _matrix, _docnames, _terms = get_demo_data(40, 40)
-
-        _matrix = np.matrix(_matrix)
-        _docnames = np.array(_docnames)
-        _terms = np.array(_terms)
-    else:
-        inv_index = InvertedIndexClass()
-        _matrix, _docnames, _terms = inv_index.get_data_from_input()
+    inv_index = InvertedIndexClass()
+    _matrix, _docnames, _terms = inv_index.get_data_from_input()
 
     # RankerTree Object creation
     tree = RankerTree(_matrix,_docnames,_terms)
