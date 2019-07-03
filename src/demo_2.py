@@ -11,7 +11,7 @@ def get_run_process(demo_mode=False):
     if demo_mode is False:
         inv_index = InvertedIndexClass("../../../../data/home7/gov2_completa/", "gov2_completa_urls.txt")
     else:
-        inv_index = InvertedIndexClass("../../hola/", "dump_10_lineas.txt")
+        inv_index = InvertedIndexClass("../hola/", "dump_10_lineas.txt")
 
     _matrix, _docnames, _terms = inv_index.get_data_from_collection()
 
