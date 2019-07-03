@@ -1,25 +1,6 @@
-import numpy as np
 from classes.RankerTree import RankerTree
 from classes.InvertedIndexFactory import InvertedIndexClass
 import matplotlib.pyplot as plt
-
-
-def get_demo_data(docnum, termsnum):
-    # Demo Data Generation
-
-    # Mock Document names generation
-    docnames = []
-    for i in range(1, docnum + 1):
-        docnames.append("doc" + str(i) + ".txt")
-
-    # Mock Terms generation
-    terms = []
-    for i in range(1, termsnum + 1):
-        terms.append("t" + str(i))
-
-    matrix = np.random.rand(len(docnames), len(terms)).round()
-
-    return matrix, docnames, terms
 
 
 def get_run_process(demo_mode=False):
@@ -27,19 +8,16 @@ def get_run_process(demo_mode=False):
     _docnames = []
     _terms = []
 
-    inv_index = InvertedIndexClass()
-    _matrix, _docnames, _terms = inv_index.get_data_from_input()
+    if demo_mode is False:
+        inv_index = InvertedIndexClass("../../../../data/home7/gov2_completa/", "gov2_completa_urls.txt")
+    else:
+        inv_index = InvertedIndexClass("../../hola/", "dump_10_lineas.txt")
+
+    _matrix, _docnames, _terms = inv_index.get_data_from_collection()
 
     # RankerTree Object creation
     tree = RankerTree(_matrix,_docnames,_terms)
     tree.unwrapTree()
-
-    """
-    print("Cabeza de arbol: \n{}\nRanking de documentos: \n{}" .format(tree.topNode.matrix, tree.topNode.ranking))
-    # Demo controlado para una matriz de 4 x 4
-    print("Por la izquierda: \n{} \nPor la derecha: \n{}" .format(tree.topNode.leftNode.matrix, tree.topNode.rightNode.matrix))
-    print("Por la izquierda: \n{} \nPor la derecha: \n{}\n".format(tree.topNode.leftNode.leftNode.matrix, tree.topNode.leftNode.rightNode.matrix))
-    """
 
     # Creating plot for Ordered Matrix
     tree.getRunsPlotAndData()
@@ -51,4 +29,4 @@ def get_run_process(demo_mode=False):
 
 
 if __name__ == "__main__":
-    get_run_process(demo_mode=True)
+    get_run_process()
