@@ -1,5 +1,6 @@
-import numpy as np, json as js, datetime as dt, time as tm, os, matplotlib.pyplot as plt
+import numpy as np, json as js, datetime as dt, time as tm, os, matplotlib.pyplot as plt, pandas as pd
 from classes.RankerNode import RankerNode
+from pylab import *
 
 
 # CLASE RANKERTREE - Clase que representa el arbol
@@ -45,6 +46,7 @@ class RankerTree:
 
         if len(orderedMatrix) > 0:
             runsArray = []
+            histogram = []
 
             # Getting Run Data from Ordered Matrix
             for document in np.asarray(orderedMatrix.transpose()):
@@ -66,7 +68,6 @@ class RankerTree:
             runsArray = list(filter(lambda a: a != 0, runsArray))
 
             # Generating Histogram Data
-            histogram = []
             histogram_json = '{"runCount":['
             for i in range(1, np.max(runsArray) + 1):
                 runCount = len(list(filter(lambda a: a == i, runsArray)))
@@ -75,10 +76,10 @@ class RankerTree:
                     histogram_json += '{"length": ' + str(i) + ', "count": ' + str(len(list(filter(lambda a: a == i, runsArray)))) + '},'
                     histogram.append(auxHistogram)
 
-            print("Runs Lenght Histogram data from this instance's Ordered Matrix was created.\n")
+            print("Runs Lenght Histogram data from", 'given Unordered' if data == [] else 'this instance\'s Ordered',
+                  'Matrix was created.\n')
         else:
             print("No Ordered Matrix found in this instance. Please check for compatible data.\n")
-            histogram = []
 
         # Histogram JSON and output file creation
         histogram_json += ']}'
@@ -96,26 +97,39 @@ class RankerTree:
 
         return histogram
 
-    def getRunsPlotAndData(self, data=[]):
+    def getRunsPlotAndData(self, data=[], store_plot=False):
         if data == []:
             matrix_type = "Ordered"
-            matrix_color = 'r'
-            runsData = np.matrix(self.getRunsData()).transpose()
+            matrix_color = 'g'
+            runsData = np.matrix(self.getRunsData())
+
         else:
             print("Creating scatterplot using external data.")
             matrix_type = "Unordered"
             matrix_color = 'b'
-            runsData = np.matrix(self.getRunsData(data)).transpose()
+            runsData = np.matrix(self.getRunsData(data))
 
+        plotdata = pd.DataFrame(runsData)
 
         if len(runsData) > 0:
-            plt.figure('Run Lenght Occurrence Scatter (' + matrix_type + ')')
-            plt.scatter(np.array(runsData[:][0]), np.array(runsData[:][1]), linestyle='solid',
-                        marker='x', edgecolors='red', color=matrix_color)
-            plt.xlabel("Run Lenght")
+            plt.figure('Run Length Occurrence Scatter (' + matrix_type + ')')
+            plt.plot(plotdata[0][0:], plotdata[1][0:], color=matrix_color, linewidth=1.0, linestyle="-")
+            plt.scatter(plotdata[0][0:], plotdata[1][0:], linestyle='solid', marker='o', edgecolors=matrix_color, color=matrix_color)
+            plt.xlabel("Run Length")
             plt.ylabel("Frequency")
-            plt.title("Run Lenght vs. Frequency")
+            plt.title("Run Length vs. Frequency")
+            if store_plot is True:
+                current_dir = os.path.join(os.path.dirname(__file__), '..')
+                if not os.path.exists(current_dir + "/output/"):
+                    os.makedirs(current_dir + "/output/")
+                plt.savefig(current_dir + "/output/" + matrix_type.lower() + "-single-plot-" + dt.datetime.fromtimestamp(tm.time()).strftime('%Y%m%d_%H%M%S') + ".png", dpi=72)
+            #plt.show()
 
-            # plt.show()
+    def getComparisonPlot(self, data=[]):
+        if data is not []:
+            print(1)
+
+        else:
+            print(1)
 
 # FIN CLASE RANKERTREE - Clase que representa el arbol
