@@ -35,6 +35,25 @@ class RankerTree:
             print("Top Node is empty. \nPlease assign and unwrap a tree before getting an ordered matrix.")
         return result
 
+    def saveFigToOutput(self, mat_type=None, comparable=False, figdir=None, filename=None):
+        foldername = "/output/"
+        folderloc = os.path.join(os.path.dirname(__file__), '..')
+
+        print(type(mat_type))
+        # print(plottype)
+        if figdir is not None and filename is not None:
+            foldername = re.sub('((\/|\\\)?(\.\.))+', "", figdir)
+            folderloc = os.path.join(os.path.dirname(__file__), re.sub(foldername, "", figdir))
+
+            if not os.path.exists(folderloc):
+                os.makedirs(folderloc)
+
+        save_fileloc = folderloc + foldername + ('' if comparable is True else str(mat_type).lower()) + \
+                        ('comparison' if comparable is True else '-single') + "-plot-" + \
+                        dt.datetime.fromtimestamp(tm.time()).strftime('%Y%m%d-%H%M%S') + ".png"
+
+        plt.savefig(save_fileloc, dpi=100)
+
     def getRunsData(self, data=[]):
         if data == []:
             matrix_type = "new"
@@ -99,13 +118,13 @@ class RankerTree:
 
     def getRunsPlotAndData(self, data=[], store_plot=False):
         if data == []:
-            matrix_type = "Ordered"
+            matrix_type = 'Ordered'
             matrix_color = 'g'
             runsData = np.matrix(self.getRunsData())
 
         else:
             print("Creating scatterplot using external data.")
-            matrix_type = "Unordered"
+            matrix_type = 'Unordered'
             matrix_color = 'b'
             runsData = np.matrix(self.getRunsData(data))
 
@@ -119,17 +138,28 @@ class RankerTree:
             plt.ylabel("Frequency")
             plt.title("Run Length vs. Frequency")
             if store_plot is True:
-                current_dir = os.path.join(os.path.dirname(__file__), '..')
-                if not os.path.exists(current_dir + "/output/"):
-                    os.makedirs(current_dir + "/output/")
-                plt.savefig(current_dir + "/output/" + matrix_type.lower() + "-single-plot-" + dt.datetime.fromtimestamp(tm.time()).strftime('%Y%m%d_%H%M%S') + ".png", dpi=72)
-            #plt.show()
+                self.saveFigToOutput(matrix_type, comparable=False)
 
-    def getComparisonPlot(self, data=[]):
+    def getComparisonPlot(self, data=[], store_plot=True):
         if data is not []:
-            print(1)
+            unord_data = pd.DataFrame(np.matrix(self.getRunsData(data)))
+            ord_data = pd.DataFrame(np.matrix(self.getRunsData()))
 
+            if len(unord_data) > 0 and len(ord_data) > 0:
+                plt.figure('Run Length Occurrence Scatter (Comparison)')
+                unord, = plt.plot(unord_data[0][0:], unord_data[1][0:], color='b', linewidth=1.0, linestyle="-", label='Unsorted Incidence Matrix')
+                plt.scatter(unord_data[0][0:], unord_data[1][0:], linestyle='solid', marker='o', edgecolors='b',
+                            color='b')
+                ord, = plt.plot(ord_data[0][0:], ord_data[1][0:], color='g', linewidth=1.0, linestyle="-", label='Sorted Incidence Matrix')
+                plt.scatter(ord_data[0][0:], ord_data[1][0:], linestyle='solid', marker='o', edgecolors='g',
+                            color='g')
+                plt.xlabel("Run Length")
+                plt.ylabel("Frequency")
+                plt.title("Run Length vs. Frequency")
+                plt.legend(handles=[unord, ord])
+                if store_plot is True:
+                    self.saveFigToOutput(comparable=True)
         else:
-            print(1)
+            print("Error!")
 
 # FIN CLASE RANKERTREE - Clase que representa el arbol

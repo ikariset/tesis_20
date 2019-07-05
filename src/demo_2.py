@@ -20,11 +20,12 @@ def get_run_process(demo_mode=False):
     tree.unwrapTree()
 
     # Creating plot for Ordered Matrix
-    tree.getRunsPlotAndData(store_plot=True)
+    #tree.getRunsPlotAndData(store_plot=True)
 
     # Creating plot for Unordered Matrix
-    tree.getRunsPlotAndData(_matrix, store_plot=True)
+    #tree.getRunsPlotAndData(_matrix, store_plot=True)
 
+    tree.getComparisonPlot(data=_matrix, store_plot=True)
     plt.show()
 
 
