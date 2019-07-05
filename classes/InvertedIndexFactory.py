@@ -72,15 +72,12 @@ class InvertedIndexClass:
 
             with io.open(self.env_dir + self.dir + self.collection, 'r', encoding='utf8') as fp:
                 for line in fp.readlines():
-                    print(line)
-
                     for term in textparser.word_tokenize(line, min_length=2, ignore_numeric=True):
                         index.add_term_occurrence(term, self.collection + "/line-" + str(doc_count))
 
                     self.docnames.append(self.collection + "/line-" + str(doc_count))
 
                     doc_count = doc_count + 1
-                    print(index.terms())
 
             # Esto es una PoC para ver si es que se genera efectivamente una matriz de 1's y 0's con las incidencias
             for doc in self.docnames:
