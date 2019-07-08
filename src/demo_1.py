@@ -7,7 +7,6 @@ import argparse
 
 def get_demo_data(docnum, termsnum):
     # Demo Data Generation
-
     # Mock Document names generation
     docnames = []
     for i in range(1, docnum + 1):
@@ -41,13 +40,6 @@ def get_run_process(demo_mode=False, store_plot=False, show_plot=False):
     # RankerTree Object creation
     tree = RankerTree(_matrix,_docnames,_terms)
     tree.unwrapTree()
-
-    """
-    print("Cabeza de arbol: \n{}\nRanking de documentos: \n{}" .format(tree.topNode.matrix, tree.topNode.ranking))
-    # Demo controlado para una matriz de 4 x 4
-    print("Por la izquierda: \n{} \nPor la derecha: \n{}" .format(tree.topNode.leftNode.matrix, tree.topNode.rightNode.matrix))
-    print("Por la izquierda: \n{} \nPor la derecha: \n{}\n".format(tree.topNode.leftNode.leftNode.matrix, tree.topNode.leftNode.rightNode.matrix))
-    """
 
     # Creating plot for Ordered Matrix
     tree.getRunsPlotAndData(store_plot=store_plot, show_plot=show_plot)
