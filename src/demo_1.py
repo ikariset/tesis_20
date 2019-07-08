@@ -58,4 +58,4 @@ def get_run_process(demo_mode=False):
 
 
 if __name__ == "__main__":
-    get_run_process(demo_mode=False)
+    get_run_process(demo_mode=True)
