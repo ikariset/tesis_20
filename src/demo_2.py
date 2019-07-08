@@ -32,8 +32,8 @@ def get_run_process(demo_mode=False, store_plot=False, show_plot=False):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", "--demo-mode", help="Activar el Modo Demo", action="store_true")
-    parser.add_argument("-p", "--show-plot", help="Mostrar el/los gráficos obtenidos",  action="store_true")
-    parser.add_argument("-s", "--store-plot", help="Guardar el/los gráficos obtenidos en /output/",  action="store_true")
+    parser.add_argument("-p", "--show-plot", help="Mostrar el/los graficos obtenidos",  action="store_true")
+    parser.add_argument("-s", "--store-plot", help="Guardar el/los graficos obtenidos en /output/",  action="store_true")
     arg_gui = parser.parse_args()
 
     get_run_process(demo_mode=(True if arg_gui.demo_mode else False),
