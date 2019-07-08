@@ -2,6 +2,7 @@ import numpy as np
 from classes.RankerTree import RankerTree
 from classes.InvertedIndexFactory import InvertedIndexClass
 import matplotlib.pyplot as plt
+import argparse
 
 
 def get_demo_data(docnum, termsnum):
@@ -22,7 +23,7 @@ def get_demo_data(docnum, termsnum):
     return matrix, docnames, terms
 
 
-def get_run_process(demo_mode=False):
+def get_run_process(demo_mode=False, store_plot=False, show_plot=False):
     _matrix = []
     _docnames = []
     _terms = []
@@ -49,13 +50,21 @@ def get_run_process(demo_mode=False):
     """
 
     # Creating plot for Ordered Matrix
-    tree.getRunsPlotAndData()
+    tree.getRunsPlotAndData(store_plot=store_plot, show_plot=show_plot)
 
     # Creating plot for Unordered Matrix
-    tree.getRunsPlotAndData(_matrix)
+    tree.getRunsPlotAndData(_matrix, store_plot=store_plot, show_plot=show_plot)
 
     plt.show()
 
 
 if __name__ == "__main__":
-    get_run_process(demo_mode=True)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-d", "--demo-mode", help="Activar el Modo Demo", action="store_true")
+    parser.add_argument("-p", "--show-plot", help="Mostrar el/los gráficos obtenidos", action="store_true")
+    parser.add_argument("-s", "--store-plot", help="Guardar el/los gráficos obtenidos en /output/", action="store_true")
+    arg_gui = parser.parse_args()
+
+    get_run_process(demo_mode=(True if arg_gui.demo_mode else False),
+                    store_plot=(True if arg_gui.store_plot else False),
+                    show_plot=(True if arg_gui.show_plot else False))

@@ -39,8 +39,6 @@ class RankerTree:
         foldername = "/output/"
         folderloc = os.path.join(os.path.dirname(__file__), '..')
 
-        print(type(mat_type))
-        # print(plottype)
         if figdir is not None and filename is not None:
             foldername = re.sub('((\/|\\\)?(\.\.))+', "", figdir)
             folderloc = os.path.join(os.path.dirname(__file__), re.sub(foldername, "", figdir))
@@ -116,7 +114,7 @@ class RankerTree:
 
         return histogram
 
-    def getRunsPlotAndData(self, data=[], store_plot=False):
+    def getRunsPlotAndData(self, data=[], store_plot=False, show_plot=False):
         if data == []:
             matrix_type = 'Ordered'
             matrix_color = 'g'
@@ -139,8 +137,10 @@ class RankerTree:
             plt.title("Run Length vs. Frequency")
             if store_plot is True:
                 self.saveFigToOutput(matrix_type, comparable=False)
+            if show_plot is True:
+                plt.show()
 
-    def getComparisonPlot(self, data=[], store_plot=True):
+    def getComparisonPlot(self, data=[], store_plot=True, show_plot=False):
         if data is not []:
             unord_data = pd.DataFrame(np.matrix(self.getRunsData(data)))
             ord_data = pd.DataFrame(np.matrix(self.getRunsData()))
@@ -159,6 +159,8 @@ class RankerTree:
                 plt.legend(handles=[unord, ord])
                 if store_plot is True:
                     self.saveFigToOutput(comparable=True)
+                if show_plot is True:
+                    plt.show()
         else:
             print("Error!")
 
