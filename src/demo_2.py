@@ -1,7 +1,6 @@
-from classes.RankerTree import RankerTree
-from classes.InvertedIndexFactory import InvertedIndexClass
+from classes.RankerTree import *
+from classes.InvertedIndexFactory import *
 import argparse
-# import matplotlib.pyplot as plt
 
 
 def get_run_process(demo_mode=False, store_plot=False, show_plot=False):
@@ -19,12 +18,6 @@ def get_run_process(demo_mode=False, store_plot=False, show_plot=False):
     # RankerTree Object creation
     tree = RankerTree(_matrix,_docnames,_terms)
     tree.unwrapTree()
-
-    # Creating plot for Ordered Matrix
-    #tree.getRunsPlotAndData(store_plot=True)
-
-    # Creating plot for Unordered Matrix
-    #tree.getRunsPlotAndData(_matrix, store_plot=True)
 
     tree.getComparisonPlot(data=_matrix, store_plot=store_plot, show_plot=show_plot)
 
