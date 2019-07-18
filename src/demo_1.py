@@ -28,7 +28,7 @@ def get_run_process(demo_mode=False, store_plot=False, show_plot=False):
     _terms = []
 
     if demo_mode:
-        _matrix, _docnames, _terms = get_demo_data(40, 40)
+        _matrix, _docnames, _terms = get_demo_data(4000, 4000)
 
         _matrix = np.matrix(_matrix)
         _docnames = np.array(_docnames)
@@ -42,12 +42,14 @@ def get_run_process(demo_mode=False, store_plot=False, show_plot=False):
     tree.unwrapTree()
 
     # Creating plot for Ordered Matrix
-    tree.getRunsPlotAndData(store_plot=store_plot, show_plot=show_plot)
+    #tree.getRunsPlotAndData(store_plot=store_plot, show_plot=show_plot)
 
     # Creating plot for Unordered Matrix
-    tree.getRunsPlotAndData(_matrix, store_plot=store_plot, show_plot=show_plot)
+    #tree.getRunsPlotAndData(_matrix, store_plot=store_plot, show_plot=show_plot)
 
-    plt.show()
+    tree.getComparisonPlot(data=_matrix, store_plot=store_plot, show_plot=show_plot)
+
+    # plt.show()
 
 
 if __name__ == "__main__":
