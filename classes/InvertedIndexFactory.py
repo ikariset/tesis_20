@@ -1,11 +1,11 @@
 import io
 import re
 import os
-from os import listdir
-from os.path import isfile, join
 import hashedindex
 import numpy as np
-
+import time
+from os import listdir
+from os.path import isfile, join
 from hashedindex import textparser
 
 
@@ -73,6 +73,7 @@ class InvertedIndexClass:
             with io.open(self.env_dir + self.dir + self.collection, 'r', encoding='utf8') as fp:
                 for line in fp.readlines():
                     for term in textparser.word_tokenize(line, min_length=2, ignore_numeric=True):
+                        time.sleep(1)
                         index.add_term_occurrence(term, self.collection + "/line-" + str(doc_count))
 
                     self.docnames.append(self.collection + "/line-" + str(doc_count))
