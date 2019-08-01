@@ -87,7 +87,7 @@ class InvertedIndexClass:
 
                 self.docnames.append(self.collection + "/line-" + str(doc_count))
                 print("Reading a line - After")
-
+  
                 doc_count = doc_count + 1
             print("Reading collection - Before")
             for doc in self.docnames:
