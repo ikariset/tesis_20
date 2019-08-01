@@ -83,7 +83,7 @@ class InvertedIndexClass:
                 for term in textparser.word_tokenize(line, min_length=2, ignore_numeric=True):
                     print("Tokenizing {} - Adding".format(term))
                     index.add_term_occurrence(term, self.collection + "/line-" + str(doc_count))
-                    print("Tokenizing {} - END".format(term))
+                    print("Tokenizing {} - END".format(term)) 
 
                 self.docnames.append(self.collection + "/line-" + str(doc_count))
                 print("Reading a line - After")
