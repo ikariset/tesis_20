@@ -1,5 +1,6 @@
 # Virtual Environment
 venv
+env
 
 # Basura de Git
 .git
