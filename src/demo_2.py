@@ -1,5 +1,11 @@
-from classes.RankerTree import *
-from classes.InvertedIndexFactory import *
+import os.path
+import sys
+
+classes_dir = (os.path.abspath(os.path.join(os.path.dirname(__file__), '..')) + '/classes/')
+sys.path.append(classes_dir)
+
+from classes.RankerTree import RankerTree
+from classes.InvertedIndexFactory import InvertedIndexClass
 import argparse
 
 
