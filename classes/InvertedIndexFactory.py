@@ -76,35 +76,35 @@ class InvertedIndexClass:
             with io.open(self.env_dir + self.dir + self.collection, 'r', encoding='utf8') as fp:
                 print("File {} is successfully opened.".format(self.collection))
 
-            # Esto es una PoC para ver si es que se genera efectivamente una matriz de 1's y 0's con las incidencias
-            print("Reading collection - Before")
-            for line in fp:
-                print("Reading a line - Before")
-                for term in textparser.word_tokenize(line, min_length=2, ignore_numeric=True):
-                    print("Tokenizing {} - Adding".format(term))
-                    index.add_term_occurrence(term, self.collection + "/line-" + str(doc_count))
-                    print("Tokenizing {} - END".format(term)) 
+                # Esto es una PoC para ver si es que se genera efectivamente una matriz de 1's y 0's con las incidencias
+                print("Reading collection - Before")
+                for line in fp:
+                    print("Reading a line - Before")
+                    for term in textparser.word_tokenize(line, min_length=2, ignore_numeric=True):
+                        print("Tokenizing {} - Adding".format(term))
+                        index.add_term_occurrence(term, self.collection + "/line-" + str(doc_count))
+                        print("Tokenizing {} - END".format(term))
 
-                self.docnames.append(self.collection + "/line-" + str(doc_count))
-                print("Reading a line - After")
-  
-                doc_count = doc_count + 1
-            print("Reading collection - Before")
-            for doc in self.docnames:
-                aux_doc = []
+                    self.docnames.append(self.collection + "/line-" + str(doc_count))
+                    print("Reading a line - After")
+
+                    doc_count = doc_count + 1
+                print("Reading collection - Before")
+                for doc in self.docnames:
+                    aux_doc = []
+                    for term in index.terms():
+                        if round(index.get_term_frequency(term, doc)) > 0:
+                            aux_doc.append(1)
+                        else:
+                            aux_doc.append(0)
+
+                    self.matrix.append(aux_doc)
+
+                self.matrix = np.matrix(self.matrix)
+
+                # Esto es para crear el array de términos
                 for term in index.terms():
-                    if round(index.get_term_frequency(term, doc)) > 0:
-                        aux_doc.append(1)
-                    else:
-                        aux_doc.append(0)
-
-                self.matrix.append(aux_doc)
-
-            self.matrix = np.matrix(self.matrix)
-
-            # Esto es para crear el array de términos
-            for term in index.terms():
-                self.terms.append(re.sub("(\(\'|\'\,\))", "", str(term)))
+                    self.terms.append(re.sub("(\(\'|\'\,\))", "", str(term)))
 
         else:
             print("Attempting to create '{}' into {}.".format(self.dir, self.env_dir))
