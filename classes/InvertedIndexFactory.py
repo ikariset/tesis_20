@@ -2,7 +2,11 @@ import io
 import re
 import os
 import hashedindex
+import json
 import numpy as np
+import psutil
+import time as tm
+import datetime as dt
 from os import listdir
 from os.path import isfile, join
 from hashedindex import textparser
@@ -72,39 +76,83 @@ class InvertedIndexClass:
         if os.path.exists(self.env_dir + self.dir) and len(os.listdir(self.env_dir + self.dir)) > 0 and len(self.collection) > 0:
             index = hashedindex.HashedIndex()
             doc_count = 0
+            exception_val = 'OK'
+            exception_message = 'All is OK in my fields'
 
             with io.open(self.env_dir + self.dir + self.collection, 'r', encoding='utf8') as fp:
                 print("File {} is successfully opened.".format(self.collection))
+                log = io.open('processing_log.txt', 'w+', encoding='utf8')
 
-                # Esto es una PoC para ver si es que se genera efectivamente una matriz de 1's y 0's con las incidencias
-                print("Reading collection - Before")
-                for line in fp:
-                    print("Reading a line - Before")
-                    for term in textparser.word_tokenize(line, min_length=2, ignore_numeric=True):
-                        print("Tokenizing {} - Adding".format(term))
-                        index.add_term_occurrence(term, self.collection + "/line-" + str(doc_count))
-                        print("Tokenizing {} - END".format(term))
+                try:
+                    # Esto es una PoC para ver si es que se genera efectivamente una matriz de 1's y 0's con las incidencias
+                    # print("Reading collection - Before")
+                    for line in fp:
+                        # print("Reading a line - Before")
+                        for term in textparser.word_tokenize(line, min_length=2, ignore_numeric=True):
+                            # print("Tokenizing {} - Adding".format(term))
+                            index.add_term_occurrence(term, self.collection + "/line-" + str(doc_count))
+                            # print("Tokenizing {} - END".format(term))
 
-                    self.docnames.append(self.collection + "/line-" + str(doc_count))
-                    print("Reading a line - After")
+                        self.docnames.append(self.collection + "/line-" + str(doc_count))
+                        log.write("Status: Finishing read a line -- {}\n".format(dt.datetime.fromtimestamp(tm.time()).strftime('%Y-%m-%d %H:%M:%S')))
+                        log.write('CPU: {}\n'.format(psutil.cpu_stats()))
+                        log.write('RAM: {}\n'.format(psutil.virtual_memory()))
+                        log.write('------------------------------------------------------------------------------------\n')
+                        doc_count = doc_count + 1
 
-                    doc_count = doc_count + 1
-                print("Reading collection - Before")
-                for doc in self.docnames:
-                    aux_doc = []
+                    log.write("Status: Indexing Complete -- {}\n".format(
+                        dt.datetime.fromtimestamp(tm.time()).strftime('%Y-%m-%d %H:%M:%S')))
+                    log.write('CPU: {}\n'.format(psutil.cpu_stats()))
+                    log.write('RAM: {}\n'.format(psutil.virtual_memory()))
+                    log.write('------------------------------------------------------------------------------------\n')
+
+                    for doc in self.docnames:
+                        aux_doc = []
+                        for term in index.terms():
+                            if round(index.get_term_frequency(term, doc)) > 0:
+                                aux_doc.append(1)
+                            else:
+                                aux_doc.append(0)
+
+                        self.matrix.append(aux_doc)
+
+                        log.write("Status: Occurrence Array Generation for a doc -- {}\n".format(
+                            dt.datetime.fromtimestamp(tm.time()).strftime('%Y-%m-%d %H:%M:%S')))
+                        log.write('CPU: {}\n'.format(psutil.cpu_stats()))
+                        log.write('RAM: {}\n'.format(psutil.virtual_memory()))
+                        log.write(
+                            '------------------------------------------------------------------------------------\n')
+
+                    self.matrix = np.matrix(self.matrix)
+
+                    log.write("Status: Occurrence Matrix complete -- {}\n".format(
+                        dt.datetime.fromtimestamp(tm.time()).strftime('%Y-%m-%d %H:%M:%S')))
+                    log.write('CPU: {}\n'.format(psutil.cpu_stats()))
+                    log.write('RAM: {}\n'.format(psutil.virtual_memory()))
+                    log.write('------------------------------------------------------------------------------------\n')
+
+                    # Esto es para crear el array de términos
                     for term in index.terms():
-                        if round(index.get_term_frequency(term, doc)) > 0:
-                            aux_doc.append(1)
-                        else:
-                            aux_doc.append(0)
+                        self.terms.append(re.sub("(\(\'|\'\,\))", "", str(term)))
 
-                    self.matrix.append(aux_doc)
+                    log.write("Status: Finishing all process -- {}\n".format(
+                        dt.datetime.fromtimestamp(tm.time()).strftime('%Y-%m-%d %H:%M:%S')))
+                    log.write('CPU: {}\n'.format(psutil.cpu_stats()))
+                    log.write('RAM: {}\n'.format(psutil.virtual_memory()))
+                    log.write('------------------------------------------------------------------------------------\n')
 
-                self.matrix = np.matrix(self.matrix)
+                except Exception as e:
+                    exception_val = type(e).__name__
+                    exception_message = e.message
 
-                # Esto es para crear el array de términos
-                for term in index.terms():
-                    self.terms.append(re.sub("(\(\'|\'\,\))", "", str(term)))
+                finally:
+                    log.write("Status: Closing the process with following status -- {}\n".format(
+                        dt.datetime.fromtimestamp(tm.time()).strftime('%Y-%m-%d %H:%M:%S')))
+                    log.write('Exception Name: {}\n'.format(exception_val))
+                    log.write('Exception Message: {}\n'.format(exception_message))
+                    log.write('CPU: {}\n'.format(psutil.cpu_stats()))
+                    log.write('RAM: {}\n'.format(psutil.virtual_memory()))
+                    log.write('------------------------------------------------------------------------------------\n')
 
         else:
             print("Attempting to create '{}' into {}.".format(self.dir, self.env_dir))

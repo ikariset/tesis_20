@@ -12,6 +12,7 @@ env
 .LSOverride
 input
 output
+*/processing_log.txt
 
 #PyCache
 */__pycache__/
