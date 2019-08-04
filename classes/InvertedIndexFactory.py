@@ -5,12 +5,9 @@ import hashedindex
 import logging as lg
 import numpy as np
 import psutil
-import time as tm
-import datetime as dt
 from os import listdir
 from os.path import isfile, join
 from hashedindex import textparser
-import multiprocessing as mp
 
 
 class InvertedIndexClass:
@@ -80,7 +77,7 @@ class InvertedIndexClass:
             exception_message = 'All is OK in my fields'
 
             with io.open(self.env_dir + self.dir + self.collection, 'r', encoding='utf8') as fp:
-                lg.basicConfig(level=lg.INFO)
+                lg.basicConfig(filename=self.env_dir + "processing_log.txt", level=lg.INFO, format="%(asctime)s -- STATUS: %(message)s")
                 lg.info("File {} is successfully opened.".format(self.collection))
 
                 try:
@@ -94,15 +91,13 @@ class InvertedIndexClass:
                             # print("Tokenizing {} - END".format(term))
 
                         self.docnames.append(self.collection + "/line-" + str(doc_count))
-                        lg.info("Status: Finishing read a line -- {}\nCPU: {}\nRAM: {}".format(
-                            dt.datetime.fromtimestamp(tm.time()).strftime('%Y-%m-%d %H:%M:%S'),
+                        lg.info("Finishing read a line\nCPU: {}\nRAM: {}".format(
                             psutil.cpu_stats(),
                             psutil.virtual_memory()))
                         lg.info('------------------------------------------------------------------------------------\n')
                         doc_count = doc_count + 1
 
-                    lg.info("Status: Indexing Complete -- {}\nCPU: {}\nRAM: {}".format(
-                            dt.datetime.fromtimestamp(tm.time()).strftime('%Y-%m-%d %H:%M:%S'),
+                    lg.info("Status: Indexing Complete\nCPU: {}\nRAM: {}".format(
                             psutil.cpu_stats(),
                             psutil.virtual_memory()))
                     lg.info('------------------------------------------------------------------------------------\n')
@@ -117,16 +112,14 @@ class InvertedIndexClass:
 
                         self.matrix.append(aux_doc)
 
-                        lg.info("Status: Occurrence Array Generation for a doc -- {}\nCPU: {}\nRAM: {}".format(
-                            dt.datetime.fromtimestamp(tm.time()).strftime('%Y-%m-%d %H:%M:%S'),
+                        lg.info("Occurrence Array Generation for a doc\nCPU: {}\nRAM: {}".format(
                             psutil.cpu_stats(),
                             psutil.virtual_memory()))
                         lg.info('------------------------------------------------------------------------------------\n')
 
                     self.matrix = np.matrix(self.matrix)
 
-                    lg.info("Status: Occurrence Matrix complete -- {}\nCPU: {}\nRAM: {}".format(
-                            dt.datetime.fromtimestamp(tm.time()).strftime('%Y-%m-%d %H:%M:%S'),
+                    lg.info("Status: Occurrence Matrix complete\nCPU: {}\nRAM: {}".format(
                             psutil.cpu_stats(),
                             psutil.virtual_memory()))
                     lg.info('------------------------------------------------------------------------------------\n')
@@ -134,20 +127,17 @@ class InvertedIndexClass:
                     # Esto es para crear el array de términos
                     for term in index.terms():
                         self.terms.append(re.sub("(\(\'|\'\,\))", "", str(term)))
-
-                    lg.info("Status: Finishing all process -- {}\nCPU: {}\nRAM: {}".format(
-                            dt.datetime.fromtimestamp(tm.time()).strftime('%Y-%m-%d %H:%M:%S'),
+                    lg.info("Status: Finishing all process\nCPU: {}\nRAM: {}".format(
                             psutil.cpu_stats(),
                             psutil.virtual_memory()))
                     lg.info('------------------------------------------------------------------------------------\n')
 
-                except Exception as e:
-                    exception_val = type(e).__name__
-                    exception_message = e.message
+                except Exception as exc:
+                    exception_val = type(exc).__name__
+                    exception_message = str(exc)
 
                 finally:
-                    lg.warning("Status: Closing the process with following status -- 'Exception Name: {}\nException Message: {}\n{}\nCPU: {}\nRAM: {}".format(
-                            dt.datetime.fromtimestamp(tm.time()).strftime('%Y-%m-%d %H:%M:%S'),
+                    lg.warning("Closing the process with following status\nException Name: {}\nException Message: {}\nCPU: {}\nRAM: {}".format(
                             exception_val,
                             exception_message,
                             psutil.cpu_stats(),
