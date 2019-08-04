@@ -73,16 +73,20 @@ class InvertedIndexClass:
         if os.path.exists(self.env_dir + self.dir) and len(os.listdir(self.env_dir + self.dir)) > 0 and len(self.collection) > 0:
             index = hashedindex.HashedIndex()
             doc_count = 0
+            log_delta_lines = 1000
             exception_val = 'OK'
             exception_message = 'All is OK in my fields'
 
             with io.open(self.env_dir + self.dir + self.collection, 'r', encoding='utf8') as fp:
-                lg.basicConfig(filename=self.env_dir + "processing_log.txt", level=lg.INFO, format="%(asctime)s -- STATUS: %(message)s")
-                lg.info("File {} is successfully opened.".format(self.collection))
+                log_file = io.open((self.env_dir[:-2]) + "processing_log.txt", 'w+', encoding='utf8')
+                log_file.close()
+                lg.basicConfig(filename=(self.env_dir[:-2]) + "processing_log.txt", level=lg.INFO, format="%(asctime)s -- STATUS: %(message)s")
+                lg.info("File {} is successfully opened.\n".format(self.collection))
 
                 try:
                     # Esto es una PoC para ver si es que se genera efectivamente una matriz de 1's y 0's con las incidencias
-                    # print("Reading collection - Before")
+
+                    line_count = log_delta_lines
                     for line in fp:
                         # print("Reading a line - Before")
                         for term in textparser.word_tokenize(line, min_length=2, ignore_numeric=True):
@@ -91,16 +95,24 @@ class InvertedIndexClass:
                             # print("Tokenizing {} - END".format(term))
 
                         self.docnames.append(self.collection + "/line-" + str(doc_count))
-                        lg.info("Finishing read a line\nCPU: {}\nRAM: {}".format(
-                            psutil.cpu_stats(),
-                            psutil.virtual_memory()))
-                        lg.info('------------------------------------------------------------------------------------\n')
+                        if line_count == log_delta_lines:
+                            lg.info("Finishing read a line\nCPU: {}\nRAM: {}".format(
+                                psutil.cpu_stats(),
+                                psutil.virtual_memory()))
+                            lg.info(
+                                '------------------------------------------------------------------------------------\n')
+                            line_count = 1
+                        else:
+                            line_count += 1
+
                         doc_count = doc_count + 1
 
                     lg.info("Status: Indexing Complete\nCPU: {}\nRAM: {}".format(
                             psutil.cpu_stats(),
                             psutil.virtual_memory()))
                     lg.info('------------------------------------------------------------------------------------\n')
+
+                    line_count = log_delta_lines
 
                     for doc in self.docnames:
                         aux_doc = []
@@ -112,10 +124,15 @@ class InvertedIndexClass:
 
                         self.matrix.append(aux_doc)
 
-                        lg.info("Occurrence Array Generation for a doc\nCPU: {}\nRAM: {}".format(
-                            psutil.cpu_stats(),
-                            psutil.virtual_memory()))
-                        lg.info('------------------------------------------------------------------------------------\n')
+                        if line_count == log_delta_lines:
+                            lg.info("Occurrence Array Generation for a doc\nCPU: {}\nRAM: {}".format(
+                                psutil.cpu_stats(),
+                                psutil.virtual_memory()))
+                            lg.info('------------------------------------------------------------------------------------\n')
+                            line_count = 1
+
+                        else:
+                            line_count += 1
 
                     self.matrix = np.matrix(self.matrix)
 
@@ -127,6 +144,7 @@ class InvertedIndexClass:
                     # Esto es para crear el array de términos
                     for term in index.terms():
                         self.terms.append(re.sub("(\(\'|\'\,\))", "", str(term)))
+
                     lg.info("Status: Finishing all process\nCPU: {}\nRAM: {}".format(
                             psutil.cpu_stats(),
                             psutil.virtual_memory()))
