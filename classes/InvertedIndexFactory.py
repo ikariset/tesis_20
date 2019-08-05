@@ -171,6 +171,7 @@ class InvertedIndexClass:
 
         return self.matrix, self.docnames, self.terms
 
+
     ''' OLD IMPLEMENTATION - For archiving purposes    
         def get_data_from_collection(self):
             if os.path.exists(self.env_dir + self.dir) and len(os.listdir(self.env_dir + self.dir)) > 0 and len(self.collection) > 0:
