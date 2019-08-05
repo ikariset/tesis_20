@@ -78,9 +78,9 @@ class InvertedIndexClass:
             exception_message = 'All is OK in my fields'
 
             with io.open(self.env_dir + self.dir + self.collection, 'r', encoding='utf8') as fp:
-                log_file = io.open((self.env_dir[:-2]) + "processing_log.txt", 'w+', encoding='utf8')
+                log_file = io.open((self.env_dir) + "/processing_log.txt", 'w+', encoding='utf8')
                 log_file.close()
-                lg.basicConfig(filename=(self.env_dir[:-2]) + "processing_log.txt", level=lg.INFO, format="%(asctime)s -- STATUS: %(message)s")
+                lg.basicConfig(filename=(self.env_dir) + "/processing_log.txt", level=lg.INFO, format="%(asctime)s -- STATUS: %(message)s")
                 lg.info("File {} is successfully opened.\n".format(self.collection))
 
                 try:
