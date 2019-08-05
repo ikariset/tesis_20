@@ -73,14 +73,14 @@ class InvertedIndexClass:
             log_delta_lines = 1000
             exception_val = 'OK'
             exception_message = 'All is OK in my fields'
-            lg.basicConfig(filename=(self.env_dir) + "/processing_log.txt", level=lg.INFO,
+            log_file = io.open("../processing_log.txt", 'w+', encoding='utf8')
+            log_file.close()
+            lg.basicConfig(filename="../processing_log.txt", level=lg.INFO,
                            format="%(asctime)s -- STATUS: %(message)s", datefmt="%Y-%m-%d %H:%M:%S")
 
             try:
                 # Esto es una PoC para ver si es que se genera efectivamente una matriz de 1's y 0's con las incidencias
                 with io.open(self.env_dir + self.dir + self.collection, 'r', encoding='utf8') as fp:
-                    log_file = io.open((self.env_dir) + "/processing_log.txt", 'w+', encoding='utf8')
-                    log_file.close()
                     lg.info("File {} is successfully opened.\n".format(self.collection))
                     line_count = log_delta_lines
                     for line in fp:

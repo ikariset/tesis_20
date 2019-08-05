@@ -13,6 +13,7 @@ env
 input
 output
 */processing_log.txt
+processing_log.txt
 
 #PyCache
 */__pycache__/
