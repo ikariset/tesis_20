@@ -19,6 +19,7 @@ def get_run_process(demo_mode=False, store_plot=False, show_plot=False):
     else:
         inv_index = InvertedIndexClass("../../hola/", "dump_10_lineas.txt")
 
+    inv_index.map()
     _matrix, _docnames, _terms = inv_index.get_data_from_collection()
 
     # RankerTree Object creation
