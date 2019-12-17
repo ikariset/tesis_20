@@ -1,7 +1,12 @@
+import os.path
+import sys
+
+classes_dir = (os.path.abspath(os.path.join(os.path.dirname(__file__), '..')) + '/classes/')
+sys.path.append(classes_dir)
+
 from classes.RankerTree import RankerTree
 from classes.InvertedIndexFactory import InvertedIndexClass
 import argparse
-# import matplotlib.pyplot as plt
 
 
 def get_run_process(demo_mode=False, store_plot=False, show_plot=False):
@@ -14,17 +19,12 @@ def get_run_process(demo_mode=False, store_plot=False, show_plot=False):
     else:
         inv_index = InvertedIndexClass("../../hola/", "dump_10_lineas.txt")
 
+    inv_index.map()
     _matrix, _docnames, _terms = inv_index.get_data_from_collection()
 
     # RankerTree Object creation
     tree = RankerTree(_matrix,_docnames,_terms)
     tree.unwrapTree()
-
-    # Creating plot for Ordered Matrix
-    #tree.getRunsPlotAndData(store_plot=True)
-
-    # Creating plot for Unordered Matrix
-    #tree.getRunsPlotAndData(_matrix, store_plot=True)
 
     tree.getComparisonPlot(data=_matrix, store_plot=store_plot, show_plot=show_plot)
 

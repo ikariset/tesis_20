@@ -1,5 +1,6 @@
 # Virtual Environment
 venv
+env
 
 # Basura de Git
 .git
@@ -11,6 +12,8 @@ venv
 .LSOverride
 input
 output
+*/processing_log.txt
+processing_log.txt
 
 #PyCache
 */__pycache__/

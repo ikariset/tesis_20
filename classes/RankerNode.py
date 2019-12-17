@@ -199,6 +199,7 @@ class RankerNode:
         # sublen = split_matrix[round((len(split_matrix) + 1) / 2)]
 
         # Función anterior ==> Separa en la mitad el array
+        print(self.matrix)
         if len(self.matrix[:, 0]) % 2 == 0:
             sublen = round(len(self.matrix[:, 0]) / 2)
         else:
